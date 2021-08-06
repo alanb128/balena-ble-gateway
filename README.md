@@ -1,12 +1,3 @@
-# HVAC-EI-anomaly
-Anomaly detector for HVAC system using Edge Impulse, Arduino Nano BLE 33 Sense, and balena
+# balena BLE Gateway
+Use a Raspberry Pi as a BLE gateway to receive data from an Arduino running EdgeImpulse machine learning.
 
-Classes:
-
-0 - idle
-
-1 - running
-
-2 - running2
-
-3 - startup
