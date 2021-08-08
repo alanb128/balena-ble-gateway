@@ -20,12 +20,12 @@ Note the very first `#include` line in your sketch, which will look something li
 ```
 #include <my_project_name.h>
 ```
-Download the `nano_ble33_sense_motion.ino` sketch fom this repository and replace the 
-
-
+Download the `nano_ble33_sense_motion.ino` sketch fom this repository and replace `your_project_name` with the name noted in your include file above. Now upload this sketch to your Arduino and confirm that it runs.
 
 ### 2. Create a new fleet in balenaCloud
-Once you have signed up for an account, you can use the deploy button below to create a new fleet (a fleet can be one or more devices) and then download an OS image which you can burn to an SD card and insert into your Raspberry Pi. When you power on the Pi, it will download the project in this repo. Alternatively, you can clone this repository, (and modify it locally if you wish) and the use the [balena CLI](https://www.balena.io/docs/reference/balena-cli/) to push the code to your device.
+Once you have signed up for an account, you can use the deploy button below to create a new fleet (a fleet can be one or more devices) and then download an OS image which you can burn to an SD card and insert into your Raspberry Pi. When you power on the Pi, it will download the project from this repo. Alternatively, you can clone this repository, (and modify it locally if you wish) and the use the [balena CLI](https://www.balena.io/docs/reference/balena-cli/) to push the code to your device. For more information about using the balena platform, check out the [Getting Started](https://www.balena.io/docs/learn/getting-started/raspberrypi3/python/) guide.
+
+[![balena deploy button](https://www.balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy?repoUrl=https://github.com/alanb128/balena-ble-gateway)
 
 
 ## Going further
