@@ -37,7 +37,7 @@ Once you have signed up for an account, you can use the deploy button below to c
 
 When your Raspberry Pi is online and the code is running, power up your Arduino (it does not need to be connected to a computer!)
 
-You'll need to set a few environment variables in order for your Raspberry Pi to communicate with your Arduino over BLE:
+You'll need to set a few [environment variables](https://www.balena.io/docs/learn/manage/serv-vars/) in order for your Raspberry Pi to communicate with your Arduino over BLE:
 
 `BLE_UUID` - the 128 bit UUID for our custom BLE service, defaults to the value `0aa84a74-d4cd-4a2e-add5-a34c52c8b19c` in our Arduino sketch. You can leave it as-is or generate your own, using an online tool [such as this](https://www.guidgenerator.com/online-guid-generator.aspx). (If you use a different UUID, it must match in both the Arduino sketch and the balenaCloud environment variable.
 
