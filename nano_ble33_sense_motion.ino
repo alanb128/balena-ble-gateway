@@ -21,7 +21,7 @@
  */
 
 /* Includes ---------------------------------------------------------------- */
-#include <hvac-motion-classifier_inferencing.h>
+#include <your-project-name.h>
 #include <Arduino_LSM9DS1.h>
 #include <ArduinoBLE.h>
 
