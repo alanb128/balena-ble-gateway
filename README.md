@@ -20,7 +20,7 @@ Note the very first `#include` line in your sketch, which will look something li
 ```
 #include <my_project_name.h>
 ```
-
+Download the `nano_ble33_sense_motion.ino` sketch fom this repository and replace the 
 
 
 
