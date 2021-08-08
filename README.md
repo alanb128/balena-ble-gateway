@@ -14,7 +14,13 @@ Use a Raspberry Pi as a BLE gateway to receive data from an Arduino running Edge
 ### 1. Build your Arduino project
 Follow the [Continuous Motion Recognition project](https://docs.edgeimpulse.com/docs/continuous-motion-recognition) directions to set up your microcontroller on Edge Impulse, collect data, build your model and then test it on your microcontroller. Be sure to include anomaly detection in your model.
 
-Once you are satisfied with the performace of your model, follow the directions to [deploy your impulse](https://docs.edgeimpulse.com/docs/running-your-impulse-arduino) locally on your Arduino. This means that you will be using the Arduino IDE to load your impulse as an Arduino library. It will run on your microcontroller upon bootup. Confirm that your impulse runs properly on the Arduino before proceeding to the next section.
+Once you are satisfied with the performace of your model, follow the directions to [deploy your impulse](https://docs.edgeimpulse.com/docs/running-your-impulse-arduino) locally on your Arduino. Once you've done this, open the File > Examples > (Your project name) > nano_ble33_sense_accelerometer sketch. This is the sketch that takes a reading from the onboard accelerometer every two seconds and performs an inference which you can observe using the serial monitor. This is the sketch we'll be modifying to send data using BLE.
+
+Note the very first `#include` line in your sketch, which will look something like this:
+```
+#include <my_project_name.h>
+```
+
 
 
 
