@@ -23,10 +23,19 @@ Note the project name in the very first `#include` line in your sketch, which wi
 Download the `nano_ble33_sense_motion.ino` sketch fom this repository and replace `your-project-name` in the first `#include` with the name noted in your include file above. Now upload this sketch to your Arduino and confirm that it runs. Using the Arduino IDE serial monitor, you should see some output such as this:
 
 ```
-Insert Here
+Sampling...
+Predictions (DSP: 24 ms., Classification: 1 ms., Anomaly: 5 ms.):
+    idle: 0.16797
+    running: 0.83203
+    running2: 0.00000
+    startup: 0.00000
+running    anomaly score: 0.464
+Sending BLE data...8d:e3:fd:54:f8:69
+Starting inferencing in 2 seconds...
+
 ```
 
-Get the address...
+Note the address after the "Sending BLE data..." text (`8d:e3:fd:54:f8:69`) in the above example. You'll need this address for one of the steps below.
 
 The additional code creates a new BLE service and two characteristics: AnomalyScore and TopClass. AnomalyScore has a UUID of `2101` and is a boolean value inidcating if the AnomalyScore is above the value of 0.3. TopClass has a UUID of `4101` and is an integer representing the highest scoring class from the most recent inference. You can change these UUIDs in the code, but they must match the UUIDs in the Python code (`ble.py`) on the gateway device used to read the data and convert it to MQTT.
 
@@ -41,8 +50,9 @@ You'll need to set a few [environment variables](https://www.balena.io/docs/lear
 
 `BLE_UUID` - the 128 bit UUID for our custom BLE service, defaults to the value `0aa84a74-d4cd-4a2e-add5-a34c52c8b19c` in our Arduino sketch. You can leave it as-is or generate your own, using an online tool [such as this](https://www.guidgenerator.com/online-guid-generator.aspx). (If you use a different UUID, it must match in both the Arduino sketch and the balenaCloud environment variable.
 
-`BLE_ADDRESS` - 
+`BLE_ADDRESS` - This is the unique address for your Arduino. You can obtain it from the step outlined in #1 above. It's printed to the serial console in the Arduino IDE which you can view when the Arduino is still connected to your computer right after upload.
 
-`MQTT_ADDRESS` - the address of the MQTT broker you want to send the data to.
+`MQTT_ADDRESS` - the address of the MQTT broker you want to send the data to. The MQTT topic is hard-coded to `HVACanomaly` in the `ble.py` code but you can change it to suit your needs. It is named `HVACanomaly` due to the original purpose of this project, which is outlined here. (coming soon!)
 
 ## Going further
+This repository is designed to provide a working proof of concept and not necessarily the best solution for transferring data via BLE from an Arduino to a Pi. A useful modification would be to allow the Raspberry Pi to receive data from multiple microcontrollers simultaneously. Another useful feature would be for the Pi to automatically discover any BLE signals currently in range. If you decide to make these or other improvements, PRs are welcome!
