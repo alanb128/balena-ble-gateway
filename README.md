@@ -44,7 +44,7 @@ Once you have signed up for an account, you can use the deploy button below to c
 
 [![balena deploy button](https://www.balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy?repoUrl=https://github.com/alanb128/balena-ble-gateway)
 
-When your Raspberry Pi is online and the code is running, power up your Arduino (it does not need to be connected to a computer!)
+When your Raspberry Pi is online and the code is running, power up your Arduino (it does not need to be connected to a computer!) and place the devices within a few feet of each other. Your useful distance may vary, but about 10 feet was my range. (Make sure they are at least a foot apart!)
 
 You'll need to set a few [environment variables](https://www.balena.io/docs/learn/manage/serv-vars/) in order for your Raspberry Pi to communicate with your Arduino over BLE:
 
