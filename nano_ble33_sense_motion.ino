@@ -35,10 +35,11 @@
 /* Private variables ------------------------------------------------------- */
 static bool debug_nn = false; // Set this to true to see e.g. features generated from the raw signal
 
-
-BLEService HVACanomaly("0aa84a74-d4cd-4a2e-add5-a34c52c8b19c");
-BLEBooleanCharacteristic AnomalyScore("2101", BLERead | BLENotify);
-BLEByteCharacteristic TopClass("4101", BLERead | BLENotify);
+// Create a new BLE service and two BLE characteristics
+// 128-bit UUID needed for a custom BLE service like this
+BLEService HVACanomaly("0aa84a74-d4cd-4a2e-add5-a34c52c8b19c");  // create your own! https://www.guidgenerator.com/online-guid-generator.aspx
+BLEBooleanCharacteristic AnomalyScore("2101", BLERead | BLENotify);  // 16 bit UUID
+BLEByteCharacteristic TopClass("4101", BLERead | BLENotify);  // 16 bit UUID
 
 /**
 * @brief      Arduino setup function
@@ -46,26 +47,21 @@ BLEByteCharacteristic TopClass("4101", BLERead | BLENotify);
 void setup()
 {
     // put your setup code here, to run once:
-    //Serial.begin(115200);
-    //Serial.println("Edge Impulse Inferencing Demo");
+    
     Serial.begin(9600);
     delay(2500);
-    //while (!Serial);
-        //pinMode(LED_BUILTIN, OUTPUT);
-        //if (!BLE.begin()) {
-            //Serial.println("starting BLE failed!");
-            //while (1);
-        //}
-
+    
     if (!BLE.begin()) {
         Serial.println("starting BLE failed!");
     }
     else {
+        // Flash the blue LED if we connect!
         digitalWrite(BLUE, HIGH);
         delay(1500);
         digitalWrite(BLUE, LOW);
     }
 
+    // Setup BLE service and advertise
     BLE.setLocalName("HVACMonitor");
     BLE.setAdvertisedService(HVACanomaly);
     HVACanomaly.addCharacteristic(AnomalyScore);
@@ -164,9 +160,9 @@ void loop()
         result.timing.dsp, result.timing.classification, result.timing.anomaly);
     ei_printf(": \n");
     
+    // topix variable will hold the name of the class with highest result
     int topix = 0;
     float topclass = result.classification[topix].value;
-    
     for (size_t ix = 0; ix < EI_CLASSIFIER_LABEL_COUNT; ix++) {
         ei_printf("    %s: %.5f\n", result.classification[ix].label, result.classification[ix].value);
         if (result.classification[ix].value > topclass) {
@@ -182,6 +178,8 @@ void loop()
 #if EI_CLASSIFIER_HAS_ANOMALY == 1
     ei_printf("    anomaly score: %.3f\n", result.anomaly);
     anomaly = result.anomaly;
+    // anomalybool will be True if greater than 0.3
+    // change the value below for a different threshhold
     if (anomaly > 0.3) {
        anomalybool = true;
        digitalWrite(GREEN, LOW); 
@@ -197,10 +195,6 @@ void loop()
     // send values via BLE
     BLEDevice central = BLE.central();
     if (central.connected()) {
-        //int batteryLevel = 57;
-        //int batteryLevel = map(battery, 0, 1023, 0, 100);
-        //Serial.print("Battery Level % is now: ");
-        //Serial.println(batteryLevel);
         Serial.print("Sending BLE data...");
         AnomalyScore.writeValue(anomalybool);
         TopClass.writeValue(topix);
