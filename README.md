@@ -1,7 +1,7 @@
 # balena BLE Gateway
 Use a Raspberry Pi as a BLE gateway to receive data from an Arduino running Edge Impulse. This example uses the [Continuous Motion Recognition project](https://docs.edgeimpulse.com/docs/continuous-motion-recognition) but could easily be adapted to others.
 
-![](https://github.com/balenalabs/balena-sense/raw/master/arduino-hvac.jpg)
+![](https://raw.githubusercontent.com/alanb128/balena-ble-gateway/main/arduino-hvac.jpg)
 
 In my use case, I attached the Arduino to an HVAC unit and trained it to recognize four different vibration patterns under normal operation. An inference runs every two seconds, and the result of that inference is sent via BLE to a Raspberry Pi running balenaOS. The code running on the Pi then converts that data to MQTT so it can be used by other applications, such as Home Assistant.
 
@@ -59,7 +59,7 @@ You'll need to set a few [environment variables](https://www.balena.io/docs/lear
 `MQTT_ADDRESS` - the address of the MQTT broker you want to send the data to. The MQTT topic is hard-coded to `HVACanomaly` in the `ble.py` code but you can change it to suit your needs. It is named `HVACanomaly` due to the original purpose of this project, which is outlined here. (coming soon!)
 
 If all is running well, you should see the Arduino data being received in the logs on the balenaCloud dashboard:
-![](https://github.com/balenalabs/balena-sense/raw/master/logs.png)
+![](https://raw.githubusercontent.com/alanb128/balena-ble-gateway/main/logs.png)
 The first value displayed after the device address is AnomalyScore, followed by TopClass.
 
 ## Going further
