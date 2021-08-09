@@ -1,6 +1,10 @@
 # balena BLE Gateway
 Use a Raspberry Pi as a BLE gateway to receive data from an Arduino running Edge Impulse. This example uses the [Continuous Motion Recognition project](https://docs.edgeimpulse.com/docs/continuous-motion-recognition) but could easily be adapted to others.
 
+![](https://github.com/balenalabs/balena-sense/raw/master/arduino-hvac.jpg)
+
+In my use case, I attached the Arduino to an HVAC unit and trained it to recognize four different vibration patterns under normal operation. An inference runs every two seconds, and the result of that inference is sent via BLE to a Raspberry Pi running balenaOS. The code running on the Pi then converts that data to MQTT so it can be used by other applications, such as Home Assistant.
+
 ## Getting started
 
 ### Hardware required
@@ -12,9 +16,9 @@ Use a Raspberry Pi as a BLE gateway to receive data from an Arduino running Edge
 - A free [balenaCloud](https://dashboard.balena-cloud.com/signup) account
 
 ### 1. Build your Arduino project
-Follow the [Continuous Motion Recognition project](https://docs.edgeimpulse.com/docs/continuous-motion-recognition) directions to set up your microcontroller on Edge Impulse, collect data, build your model and then test it on your microcontroller. Be sure to include anomaly detection in your model.
+Follow the [Continuous Motion Recognition project](https://docs.edgeimpulse.com/docs/continuous-motion-recognition) instructions to set up your microcontroller on Edge Impulse, collect data, build your model and then test it on your microcontroller. Be sure to include anomaly detection in your model.
 
-Once you are satisfied with the performace of your model, follow the directions to [deploy your impulse](https://docs.edgeimpulse.com/docs/running-your-impulse-arduino) locally on your Arduino. Once you've done this, open the File > Examples > (Your project name) > nano_ble33_sense_accelerometer sketch. This is the sketch that takes a reading from the onboard accelerometer every two seconds and performs an inference which you can observe using the serial monitor. This is the sketch we'll be modifying to send data using BLE.
+Once you are satisfied with the performace of your model, follow the directions to [deploy your impulse](https://docs.edgeimpulse.com/docs/running-your-impulse-arduino) locally on your Arduino. Once you've done this, open the File > Examples > (Your project name) > nano_ble33_sense_accelerometer sketch in the Arduino IDE. This is the sketch that takes a reading from the onboard accelerometer every two seconds and performs an inference which you can observe using the serial monitor. This is the sketch we'll be modifying to send data using BLE.
 
 Note the project name in the very first `#include` line in your sketch, which will look something like this:
 ```
@@ -37,7 +41,7 @@ Starting inferencing in 2 seconds...
 
 Note the address after the "Sending BLE data..." text (`8d:e3:fd:54:f8:69`) in the above example. You'll need this address for one of the steps below.
 
-The additional code creates a new BLE service and two characteristics: AnomalyScore and TopClass. AnomalyScore has a UUID of `2101` and is a boolean value inidcating if the AnomalyScore is above the value of 0.3. TopClass has a UUID of `4101` and is an integer representing the highest scoring class from the most recent inference. You can change these UUIDs in the code, but they must match the UUIDs in the Python code (`ble.py`) on the gateway device used to read the data and convert it to MQTT.
+The additional code creates a new BLE service and two characteristics: AnomalyScore and TopClass. AnomalyScore has a UUID of `2101` and is a boolean value that indicates if the AnomalyScore is above the value of 0.3. TopClass has a UUID of `4101` and is an integer representing the highest scoring class from the most recent inference. You can change these UUIDs in the code, but they must match the UUIDs in the Python code (`ble.py`) on the gateway device used to read the data and convert it to MQTT.
 
 ### 2. Create a new fleet in balenaCloud
 Once you have signed up for an account, you can use the deploy button below to create a new fleet (a fleet can be one or more devices) and then download an OS image which you can burn to an SD card and insert into your Raspberry Pi. When you power on the Pi, it will download the project from this repo. Alternatively, you can clone this repository, (and modify it locally if you wish) and the use the [balena CLI](https://www.balena.io/docs/reference/balena-cli/) to push the code to your device. For more information about using the balena platform, check out the [Getting Started](https://www.balena.io/docs/learn/getting-started/raspberrypi3/python/) guide.
@@ -54,5 +58,9 @@ You'll need to set a few [environment variables](https://www.balena.io/docs/lear
 
 `MQTT_ADDRESS` - the address of the MQTT broker you want to send the data to. The MQTT topic is hard-coded to `HVACanomaly` in the `ble.py` code but you can change it to suit your needs. It is named `HVACanomaly` due to the original purpose of this project, which is outlined here. (coming soon!)
 
+If all is running well, you should see the Arduino data being received in the logs on the balenaCloud dashboard:
+![](https://github.com/balenalabs/balena-sense/raw/master/logs.png)
+The first value displayed after the device address is AnomalyScore, followed by TopClass.
+
 ## Going further
-This repository is designed to provide a working proof of concept and not necessarily the best solution for transferring data via BLE from an Arduino to a Pi. A useful modification would be to allow the Raspberry Pi to receive data from multiple microcontrollers simultaneously. Another useful feature would be for the Pi to automatically discover any BLE signals currently in range. If you decide to make these or other improvements, PRs are welcome!
+This project is merely a simple example of how data can be transferred from a microcontroller to another device via BLE. A useful modification would be to allow the Raspberry Pi to receive data from multiple microcontrollers simultaneously. Another useful feature would be for the Pi to automatically discover any BLE signals currently in range. If you decide to make these or other improvements, PRs are welcome!
