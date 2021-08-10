@@ -64,3 +64,10 @@ The first value displayed after the device address is AnomalyScore, followed by 
 
 ## Going further
 This project is merely a simple example of how data can be transferred from a microcontroller to another device via BLE. A useful modification would be to allow the Raspberry Pi to receive data from multiple microcontrollers simultaneously. Another useful feature would be for the Pi to automatically discover any BLE signals currently in range. If you decide to make these or other improvements, PRs are welcome!
+
+## BLE Resources
+I found the following sites useful when working on this project:
+- https://devzone.nordicsemi.com/nordic/short-range-guides/b/bluetooth-low-energy/posts/ble-services-a-beginners-tutorial
+- https://ladvien.com/arduino-nano-33-bluetooth-low-energy-setup/
+- https://rootsaid.com/arduino-ble-example/
+- https://forum.arduino.cc/t/problem-sending-data-from-arduino-nano-ble-to-raspberry-pi-zero/853251
