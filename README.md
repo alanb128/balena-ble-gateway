@@ -1,6 +1,8 @@
 # balena BLE Gateway
 Use a Raspberry Pi as a BLE gateway to receive data from an Arduino running Edge Impulse. This example uses the [Continuous Motion Recognition project](https://docs.edgeimpulse.com/docs/continuous-motion-recognition) but could easily be adapted to others.
 
+For more background on this project, check out this [blog post](https://www.balena.io/blog/how-to-use-ble-communicate-between-arduino-edge-impulse-balenaOS/).
+
 ![](https://raw.githubusercontent.com/alanb128/balena-ble-gateway/main/arduino-hvac.jpg)
 
 In my use case, I attached the Arduino to an HVAC unit and trained it to recognize four different vibration patterns under normal operation. An inference runs every two seconds, and the result of that inference is sent via BLE to a Raspberry Pi running balenaOS. The code running on the Pi then converts that data to MQTT so it can be used by other applications, such as Home Assistant.
